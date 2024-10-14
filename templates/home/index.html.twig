@@ -18,19 +18,7 @@
 		.dev-danger {
 			color: rgba(255, 49, 49, 255)
 		}
-		@media(max-width: 768px) {
-			.nav-links {
-				position: absolute;
-				background: #f44336;
-				height: 100vh;
-				width: 200px;
-				top: 0;
-				right: -200px;
-				text-align: left;
-				z-index: 2;
-				transition: 1s ease-in-out;
-			}
-		}
+		
 	</style>
 {% endblock %}
 
@@ -50,7 +38,7 @@
 					<ul>
 						<!-- Liens de navigation -->
 						<li>
-							<a href="{{ path('app_home') }}">HOME</a>
+							<a href="{{ path('app_home') }}">ACCUEIL</a>
 						</li>
 						<li>
 							<a href="{{ path('app_apropos') }}">À PROPOS</a>
@@ -151,7 +139,7 @@
 			<h1>Notre Campus</h1>
 			<p>Pour l'instant, nous avons trois campus en France</p>
 			<div
-				class="row">
+				class="roow">
 				<!-- Campus avec images et noms -->
 				<div class="campus-col">
 					<img src="{{ asset('../assets/img/Tour_eff.jpg') }}" alt="Paris">
@@ -182,7 +170,7 @@
 				Découvrez certaines de nos installations pour vous libérer du stress
 			</p>
 			<div
-				class="row">
+				class="roow">
 				<!-- Installations avec images et descriptions -->
 				<div class="facilities-col">
 					<img src="{{ asset('../assets/img/Bibliothèque de classe.jpg') }}" alt="Library">
