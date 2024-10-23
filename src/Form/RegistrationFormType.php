@@ -3,10 +3,12 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Course;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -73,6 +75,14 @@ class RegistrationFormType extends AbstractType
                     new Assert\NotBlank(), // Validation : ne pas laisser le champ vide
                 ],
             ])
+
+            ->add('courses', EntityType::class, [
+                'class' => Course::class,
+                'choice_label' => 'name', // Display course name
+                'multiple' => true,        // Allow selection of multiple courses
+                'expanded' => true,        // Use checkboxes instead of a select box
+            ])
+            
             
             // Ajouter le champ 'phone' (numéro de téléphone) de type texte avec validation
             ->add('phone', TextType::class, [

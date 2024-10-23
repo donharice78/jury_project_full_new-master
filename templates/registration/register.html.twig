@@ -110,6 +110,14 @@
 			{{ form_widget(registrationForm.phone, {'attr': {'class': 'form-control'}}) }}
 			{{ form_errors(registrationForm.phone) }}
 		</div>
+		<div class="mb-3">
+    {{ form_label(registrationForm.courses, 'Cours', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(registrationForm.courses, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(registrationForm.courses) }}
+</div>
+
+
+		
 
 		<div class="mb-3">
 			{{ form_label(registrationForm.photo, 'Photo de profil', {'label_attr': {'class': 'form-label'}}) }}

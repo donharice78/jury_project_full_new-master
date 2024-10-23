@@ -89,28 +89,17 @@
 }
 
 /* Responsivité : ajustement des colonnes pour les écrans moyens (tablettes) */
-@media (max-width: 767px) {
+@media (max-width: 780px) {
+    .footer-row {
+        grid-template-columns: 2fr; /* Stack columns vertically on small screens */
+        margin-left: 10px;
+        
+    }
+
     .footer-col {
         width: 50%;
-        margin-bottom: 30px;
+        
     }
 }
 
-/* Responsivité : ajustement des colonnes pour les petits écrans (smartphones) */
-@media (max-width: 574px) {
-    .footer-col {
-        width: 100%;
-    }
 
-    /* Adaptation des liens pour les très petits écrans (smartphones en mode portrait) */
-    .footer-col ul li a {
-        font-size: 12px;
-    }
-}
-
-/* Réajustement des colonnes à 25% sur les très petits écrans (en ajoutant une meilleure gestion de l'espace) */
-@media (max-width: 574px) {
-    .footer-col {
-        width: 25%;
-    }
-}
