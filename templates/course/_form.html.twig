@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ app.request.attributes.get('_route') == 'app_blogs_edit' ? 'Modifier le Blog' : 'Créer un Nouveau Blog' }}{% endblock %}
+{% block title %}{{ app.request.attributes.get('_route') == 'app_course_edit' ? 'Modifier le Cours' : 'Créer un Nouveau Cours' }}{% endblock %}
 
 {% block body %}
     <div class="container mt-5">
         <!-- En-tête du formulaire -->
-        <h1 class="text-center mb-4">{{ app.request.attributes.get('_route') == 'app_blogs_edit' ? 'Modifier le Blog' : 'Créer un Nouveau Blog' }}</h1>
+        <h1 class="text-center mb-4">{{ app.request.attributes.get('_route') == 'app_course_edit' ? 'Modifier le Cours' : 'Créer un Nouveau Cours' }}</h1>
 
         <!-- Conteneur du formulaire -->
         <div class="row justify-content-center">
