@@ -88,7 +88,19 @@
 						<td>{{ user.firstName }}</td>
 						<td>{{ user.lastName }}</td>
 						<td>{{ user.phone }}</td>
-						<td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
+						  <td>
+        {% if user.roles is not empty %}
+            {% if 'ROLE_ADMIN' in user.roles %}
+                ADMIN
+            {% elseif 'ROLE_USER' in user.roles %}
+                ETUDIANT
+            {% else %}
+                {{ user.roles|join(', ') }} {# Fallback if there are other roles #}
+            {% endif %}
+        {% else %}
+            '' {# No roles assigned #}
+        {% endif %}
+    </td>
 						 <td>
                             {% if app.user.courses is not empty %}
                                 <ul>

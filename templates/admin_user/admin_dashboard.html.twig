@@ -68,6 +68,7 @@
 
                         <li><a href="{{ path('app_course_index') }}">Gérer les cours</a></li>
 						<li><a href="{{ path('app_blogs_index') }}">Gérer les Blogs</a></li>
+                        <li><a href="{{ path('app_comment_index') }}">Gérer les commentaires</a></li>
                         <li><a href="{{ path('app_non_admin_user_index') }}">Gérer les étudiants</a></li>
                         <li><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     </ul>
@@ -89,7 +90,7 @@
                     </div>
 
                     <div class="card">
-                        <h3>Administrateurs au total</h3>
+                        <h3>Admins au total</h3>
                         <p>{{ total_admin }}</p>
                         <a href="{{ path('app_all_admin_user_index') }}">voir tout</a>
                     </div>
@@ -98,41 +99,10 @@
                         <h3>Formations actifs</h3>
                         <p>{{ total_courses }}</p>
                         <a href="{{ path('app_admin_user_course') }}">voir tout</a>
-                        <a href="{{ path('admin_attribute_courses', { 'id': app.user.id }) }}">Attribuer des Formation</a>
                     </div>
                 </section>
 
-                <section>
-                    <div class="info card shadow-sm">
-                        <h3>Informations d'urgence</h3>
-                        <div class="big-div">
-                            <table class="table table-borderless">
-                                <tbody>
-                                    <tr>
-                                        <th>Pompiers (Incendie / Urgences médicales)</th>
-                                        <td>18</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Police Secours</th>
-                                        <td>17</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Urgences en mer</th>
-                                        <td>196</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Urgences pour les enfants</th>
-                                        <td>112</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Numéro d'urgence Européen</th>
-                                        <td>112</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
+                
             </main>
         </div>
 

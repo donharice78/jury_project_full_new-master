@@ -11,11 +11,7 @@
 		<div class="test-row">
 			{% for comment in comments %}
 				<div class="testimonial-col">
-					{% if comment.user and comment.user.photo %}
-						<img src="{{ asset('uploads/photos/' ~ comment.user.photo) }}" alt="{{ comment.user.name }}">
-					{% else %}
-						<img src="{{ asset('../assets/img/user.png') }}" alt="Default User">
-					{% endif %}
+					
 					<div>
 						<h3>{{ comment.user ? comment.user.name : 'Anonymous' }}</h3>
 						{% for i in 1..5 %}

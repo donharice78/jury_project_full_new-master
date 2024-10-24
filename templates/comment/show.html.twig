@@ -69,15 +69,7 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div
-							class="col-md-4">
-							<!-- User Photo -->
-							{% if comment.user and comment.user.photo %}
-								<img src="{{ asset('uploads/photos/' ~ comment.user.photo) }}" alt="{{ comment.user.name }}" class="img-fluid rounded-circle" style="height: 150px; width: 150px; object-fit: cover; border: 1px solid #ddd;">
-							{% else %}
-								<img src="{{ asset('../assets/img/user.png') }}" alt="Default Photo" class="img-fluid rounded-circle" style="height: 150px; width: 150px; object-fit: cover; border: 1px solid #ddd;">
-							{% endif %}
-						</div>
+						
 						<div class="col-md-8">
 							<table class="table table-borderless">
 								<tbody>
