@@ -6,7 +6,7 @@
     background-color: #f4f4f4; /* Couleur de fond du site */
     margin: 0;
     padding: 0;
-    color: #333; /* Couleur du texte par défaut */
+    color: #0c0b0b; 
 }
 
 a {
@@ -15,7 +15,7 @@ a {
 }
 
 h1, h3 {
-    color: #2c3e50; /* Couleur des titres principaux */
+    color: #0c0b0b; /* Couleur des titres principaux */
     margin: 0;
 }
 

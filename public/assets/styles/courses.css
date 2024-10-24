@@ -81,7 +81,7 @@
   
   /* Titre des cartes */
   .card__title {
-    color: darkgray;
+    color: #a9a9a9;
     font-size: 1.25rem;
     font-weight: 300;
     letter-spacing: 2px;

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use App\Entity\Course;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -19,6 +20,11 @@ class AttributeCourseType extends AbstractType
             'class' => User::class,
             'choice_label' => 'username', // Display user's username
             'placeholder' => 'Select a user', // Placeholder text for the select box
+            'query_builder' => function (UserRepository $userRepository) {
+                return $userRepository->createQueryBuilder('u')
+                    ->where('u.roles NOT LIKE :role')
+                    ->setParameter('role', '%"ROLE_ADMIN"%'); // Exclude users with ROLE_ADMIN
+            },
         ])
         ->add('courses', EntityType::class, [
             'class' => Course::class,
