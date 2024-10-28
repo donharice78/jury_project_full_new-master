@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ContactMessage;
 use App\Form\ContactMessageType;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,20 +29,17 @@ class FormSubmissionController extends AbstractController
 
             // Send the email
             $mail = (new TemplatedEmail())
-                ->to('kolonelaboki78@gmail.com')
-                ->from($data->getEmail())
-                ->subject('Contact Form Submission')
-                ->htmlTemplate('emails/index.html.twig')
-                ->context(['data' => $data]);
-            
-            $mailer->send($mail);
+            ->from(new Address('contact@webdev77.fr', 'Web Dev Contact')) // IONOS email in the 'from' field
+            ->to('kolonelaboki78@gmail.com')
+            ->subject('Contact Form Submission')
+            ->htmlTemplate('emails/index.html.twig')
+            ->context(['data' => $data]);
+        
+        $mailer->send($mail);
 
-            // Flash message
-            $this->addFlash('success', 'Your message has been sent and saved successfully!');
-
-            // Redirect after success
-            return $this->redirectToRoute('app_home');
-        }
+        $this->addFlash('success', 'Your message has been sent and saved successfully!');
+        return $this->redirectToRoute('app_home');
+    }
 
         return $this->render('form_submission/index.html.twig', [
             'form' => $form->createView(),
