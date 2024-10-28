@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block body %}
-<body>
+	<body>
 		<section class="courses-header">
 			<nav>
 				<!-- Logo cliquable qui redirige vers la page d'accueil -->
@@ -65,18 +65,18 @@
 				<tr class="table-dark">
 					<th scope="col">Id</th>
 					<th scope="col">Photo</th>
-					<th scope="col">Email</th>
-					<th scope="col">Username</th>
-					<th scope="col">First Name</th>
-					<th scope="col">Last Name</th>
-					<th scope="col">Phone</th>
-					<th scope="col">Roles</th>
-					<th scope="col">Courses Attributed</th> 
+					<th scope="col">E-mail</th>
+					<th scope="col">Nom d'utilisateur</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">Nom de famille</th>
+					<th scope="col">Téléphone</th>
+					<th scope="col">Rôles</th>
+					<th scope="col">Cours attribués</th>
 
 					<th scope="col">Actions</th>
 				</tr>
 			</thead>
-			<tbody >
+			<tbody>
 				{% for user in users %}
 					<tr>
 						<td>{{ user.id }}</td>
@@ -88,37 +88,38 @@
 						<td>{{ user.firstName }}</td>
 						<td>{{ user.lastName }}</td>
 						<td>{{ user.phone }}</td>
-						  <td>
-        {% if user.roles is not empty %}
-            {% if 'ROLE_ADMIN' in user.roles %}
-                ADMIN
-            {% elseif 'ROLE_USER' in user.roles %}
-                ETUDIANT
-            {% else %}
-                {{ user.roles|join(', ') }} {# Fallback if there are other roles #}
-            {% endif %}
-        {% else %}
-            '' {# No roles assigned #}
-        {% endif %}
-    </td>
-						 <td>
-                            {% if app.user.courses is not empty %}
-                                <ul>
-                                    {% for course in user.courses %}
-                                        <li>{{ course.name }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                No courses attributed
-                            {% endif %}
-                        </td>
 						<td>
-						<a href="{{ path('app_admin_user_show', {'username': user.username}) }}" class="btn btn-info btn-sm">Show</a>
+							{% if user.roles is not empty %}
+								{% if 'ROLE_ADMIN' in user.roles %}
+									ADMIN
+								{% elseif 'ROLE_USER' in user.roles %}
+									ETUDIANT
+								{% else %}
+									{{ user.roles|join(', ') }}
+									{# Fallback if there are other roles #}
+								{% endif %}
+							{% else %}
+								''
+								{# No roles assigned #}
+							{% endif %}
+						</td>
+						<td>
+							{% if user.courses is not empty %}
+								<ul>
+									{% for course in user.courses %}
+										<li>{{ course.name }}</li>
+									{% endfor %}
+								</ul>
+							{% else %}
+								Aucun cours attribué
+							{% endif %}
+						</td>
+						<td>
 							<a href="{{ path('app_admin_user_edit', {'id': user.id}) }}" class="btn btn-warning btn-sm">Edit</a>
-                            <form method="post" action="{{ path('app_admin_user_delete', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to delete {{ user.lastName }} {{ user.firstName }}?');" style="display:inline;">
-                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-                                <button class="btn btn-danger btn-sm">Delete</button>
-                            </form>
+							<form method="post" action="{{ path('app_admin_user_delete', {'id': user.id}) }}" onsubmit="return confirm('Are you sure you want to delete {{ user.lastName }} {{ user.firstName }}?');" style="display:inline;">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+								<button class="btn btn-danger btn-sm">Delete</button>
+							</form>
 						</td>
 					</tr>
 				{% else %}
@@ -128,69 +129,66 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		
-	
-   </div>
+	</body>
+</div>
 
 
-    <!-- Footer -->
-		<footer class="footer">
-			<div class="footer-container">
-				<div
-					class="footer-row">
-					<!-- Colonnes du pied de page avec informations et liens -->
-					<div class="footer-col">
-						<h4>WeB DeV</h4>
-						<ul>
-							<li><a href="{{ path('app_home') }}">Accueil</a></li>
-							<li><a href="{{ path('app_blogs_index') }}">Notre Blog</a></li>
-							<li><a href="{{ path('app_contact') }}">Contactez-nous</a></li>
-							<li><a href="{{ path('app_apropos') }}">À propos de nous</a></li>
-							<li><a href="{{ path('app_privacy') }}">Politique de confidentialité</a></li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h4>Obtenir de l'aide</h4>
-						<ul>
-							<li><a href="{{ path('app_faq') }}">FAQ</a></li>
-							<li><a href="{{ path('app_certification') }}">Certification</a></li>
-							<li><a href="{{ path('app_financements') }}">Financements</a></li>
-							<li><a href="{{ path('app_evenements') }}">Événements</a></li>
-							<li><a href="{{ path('app_modaliteacces') }}">Modalités d'accès</a></li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h4>Adresse</h4>
-						<ul>
-							<li><a href="">7 Avenue du General Patton</a></li>
-							<li><a href="">77000</a></li>
-							<li><a href="">Melun</a></li>
-							<li><a href="tel:+33783650880">Tel: 07 83 65 08 80</a></li>
-							<li><a href="{{ path('app_contact') }}">Contactez-nous <i class="fa-regular fa-envelope"></i></a></li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h4>Suivez-nous</h4>
-						<div class="social-links">
-							<a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-facebook-f"></i>
-							</a>
-							<a href="https://twitter.com/yourprofile" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-twitter"></i>
-							</a>
-							<a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-instagram"></i>
-							</a>
-							<a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-linkedin-in"></i>
-							</a>
-						</div>
-
-					</div>
-
-
-				</div>
+<!-- Footer -->
+<footer class="footer">
+	<div class="footer-container">
+		<div
+			class="footer-row">
+			<!-- Colonnes du pied de page avec informations et liens -->
+			<div class="footer-col">
+				<h4>WeB DeV</h4>
+				<ul>
+					<li><ahref="{{ path('app_home') }}">Accueil</a></li>
+					<li><ahref="{{ path('app_blogs_index') }}">Notre Blog</a></li>
+					<li><ahref="{{ path('app_contact') }}">Contactez-nous</a></li>
+					<li><ahref="{{ path('app_apropos') }}">À propos de nous</a></li>
+					<li><ahref="{{ path('app_privacy') }}">Politique de confidentialité</a></li>
+				</ul>
 			</div>
-		</footer>
-</body>
-{% endblock %}
+			<div class="footer-col">
+				<h4>Obtenir de l'aide</h4>
+				<ul>
+					<li><ahref="{{ path('app_faq') }}">FAQ</a></li>
+					<li><ahref="{{ path('app_certification') }}">Certification</a></li>
+					<li><ahref="{{ path('app_financements') }}">Financements</a></li>
+					<li><ahref="{{ path('app_evenements') }}">Événements</a></li>
+					<li><ahref="{{ path('app_modaliteacces') }}">Modalités d'accès</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>Adresse</h4>
+				<ul>
+					<li><a href="">7 Avenue du General Patton</a></li>
+					<li><a href="">77000</a></li>
+					<li><a href="">Melun</a></li>
+					<li><a href="tel:+33783650880">Tel: 07 83 65 08 80</a></li>
+					<li><ahref="{{ path('app_contact') }}">Contactez-nous<i class="fa-regular fa-envelope"></i></a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>Suivez-nous</h4>
+				<div class="social-links">
+					<a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+						<i class="fab fa-facebook-f"></i>
+					</a>
+					<a href="https://twitter.com/yourprofile" target="_blank" rel="noopener noreferrer">
+						<i class="fab fa-twitter"></i>
+					</a>
+					<a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
+						<i class="fab fa-instagram"></i>
+					</a>
+					<a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+						<i class="fab fa-linkedin-in"></i>
+					</a>
+				</div>
+
+			</div>
+
+
+		</div>
+	</div>
+</footer></body>{% endblock %}

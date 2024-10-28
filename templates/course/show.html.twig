@@ -100,6 +100,15 @@
 					<p class="card-text">
 						<strong class="fw-bold">Frais du Cours :</strong>
 						{{ course.courseFee }} €</p>
+					 <p><strong class="fw-bold">Campus :</strong> 
+        {% if course.campus is not empty %}
+            {% for campus in course.campus %}
+                {{ campus.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        {% else %}
+            Aucun campus associé
+        {% endif %}
+    </p>
 				</div>
 				<div
 					class="card-footer text-center">

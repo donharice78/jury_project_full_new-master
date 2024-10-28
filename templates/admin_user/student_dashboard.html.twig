@@ -88,8 +88,12 @@
                     </div>
 
                     <div class="card">
-                        <h3>Date du jour</h3>
-                        <p>{{ "now"|date("l, d F Y H:i") }}</p>
+                    <h3>Votre Centre De Formation</h3>
+                       {% if app.user.campus is not empty %}
+                    <p>{{ app.user.campus.name }}</p>
+                                        {% else %}
+                    <p>Vous n'êtes inscrit à aucun Centre de formation.</p>
+                       {% endif %}
                     </div>
                 </section>
 

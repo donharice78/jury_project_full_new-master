@@ -46,9 +46,19 @@ class Course
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'courses')]
     private Collection $users;
 
+    /**
+     * @var Collection<int, Campus>
+     */
+    #[ORM\ManyToMany(targetEntity: Campus::class, inversedBy: 'courses')]
+    private Collection $campus;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $end_date = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->campus = new ArrayCollection();
     } // Nom du fichier image associé au cours
 
     public function getId(): ?int
@@ -167,6 +177,42 @@ class Course
         if ($this->users->removeElement($user)) {
             $user->removeCourse($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Campus>
+     */
+    public function getCampus(): Collection
+    {
+        return $this->campus;
+    }
+
+    public function addCampus(Campus $campus): static
+    {
+        if (!$this->campus->contains($campus)) {
+            $this->campus->add($campus);
+        }
+
+        return $this;
+    }
+
+    public function removeCampus(Campus $campus): static
+    {
+        $this->campus->removeElement($campus);
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->end_date;
+    }
+
+    public function setEndDate(\DateTimeInterface $end_date): static
+    {
+        $this->end_date = $end_date;
 
         return $this;
     }

@@ -2,9 +2,11 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Course;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -20,6 +22,13 @@ class Course1Type extends AbstractType
                 'label' => 'Titre du Cours', // Label du champ
                 'attr' => ['placeholder' => 'Entrez le titre du cours'], // Placeholder du champ
             ])
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'name', // Display course name
+                'multiple' => true,        // Allow selection of multiple courses
+                'expanded' => true,        // Use checkboxes instead of a select box
+            ])
+            
 
             // Ajouter le champ 'description' pour la description du cours
             ->add('description', null, [
@@ -37,6 +46,14 @@ class Course1Type extends AbstractType
             ->add('start_date', null, [
                 'widget' => 'single_text', // Afficher le champ comme un seul texte
                 'label' => 'Date de Début', // Label du champ
+                'attr' => ['placeholder' => 'Sélectionnez la date de début', // Placeholder du champ
+                'min' => (new \DateTime())->format('Y-m-d'),
+            ]
+            ])
+
+            ->add('end_date', null, [
+                'widget' => 'single_text', // Afficher le champ comme un seul texte
+                'label' => 'Date de Fin', // Label du champ
                 'attr' => ['placeholder' => 'Sélectionnez la date de début', // Placeholder du champ
                 'min' => (new \DateTime())->format('Y-m-d'),
             ]

@@ -30,7 +30,11 @@ security:
     access_control:
         # Define access control rules
         - { path: ^/back, roles: ROLE_ADMIN }
+<<<<<<< HEAD
         - { path: '^/{username}', roles: ['ROLE_ADMIN', 'ROLE_USER'] }
+=======
+        - { path: ^/view, roles: ROLE_USER}
+>>>>>>> 7850a289226aa4cd42044c0d82b9ca8c338036d4
         - { path: ^/user, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_ADMIN }
         - { path: ^/course/new, roles: ROLE_ADMIN }

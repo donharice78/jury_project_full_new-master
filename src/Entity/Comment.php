@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\CommentRepository;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -17,20 +17,17 @@ class Comment
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null; // Contenu du commentaire
 
-    /**
-     * Relation ManyToOne avec l'entité User
-     *
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private ?User $user = null; // Utilisateur qui a laissé le commentaire
+  
 
     /**
      * Note attribuée dans le commentaire
      *
      * @ORM\Column(type="integer")
      */
-    private ?int $rating = null; // Note associée au commentaire
+    private ?int $rating = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?User $user = null; // Note associée au commentaire
 
     // Méthode pour obtenir l'identifiant du commentaire
     public function getId(): ?int
@@ -51,18 +48,7 @@ class Comment
         return $this; // Retourne l'instance actuelle pour la chaîne de méthodes
     }
 
-    // Méthode pour obtenir l'utilisateur associé au commentaire
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    // Méthode pour définir l'utilisateur associé au commentaire
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-        return $this; // Retourne l'instance actuelle pour la chaîne de méthodes
-    }
+ 
 
     // Méthode pour obtenir la note du commentaire
     public function getRating(): ?int
@@ -75,5 +61,17 @@ class Comment
     {
         $this->rating = $rating;
         return $this; // Retourne l'instance actuelle pour la chaîne de méthodes
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
