@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::JSON)]
     private array $roles = []; // Rôles de l'utilisateur (ex. ROLE_USER, ROLE_ADMIN)
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null; // Photo de profil de l'utilisateur (chemin du fichier)
 
    
