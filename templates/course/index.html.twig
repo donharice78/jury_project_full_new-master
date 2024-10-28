@@ -92,6 +92,15 @@
 								<li>
 									<strong>Prérequis :</strong>
 									{{ course.prerequisities }}</li>
+								 <li><strong>Campus :</strong> 
+        {% if course.campus is not empty %}
+            {% for campus in course.campus %}
+                {{ campus.name }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+        {% else %}
+            Aucun campus associé
+        {% endif %}
+    </li>
 
 							</ul>
 							<!-- Boutons d'action -->

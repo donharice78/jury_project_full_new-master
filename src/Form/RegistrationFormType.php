@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Campus;
 use App\Entity\Course;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -80,6 +81,13 @@ class RegistrationFormType extends AbstractType
                 'class' => Course::class,
                 'choice_label' => 'name', // Display course name
                 'multiple' => true,        // Allow selection of multiple courses
+                'expanded' => true,        // Use checkboxes instead of a select box
+            ])
+
+            ->add('campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'name', // Display course name
+                'multiple' => false,        // Allow selection of multiple courses
                 'expanded' => true,        // Use checkboxes instead of a select box
             ])
             
