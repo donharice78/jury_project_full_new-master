@@ -157,7 +157,7 @@ class AdminUserController extends AbstractController
             $this->addFlash('error', 'Token CSRF invalide.');
         }
 
-        return $this->redirectToRoute('app_admin_user_index');
+        return $this->redirectToRoute('app_admin_dashboard');
     }
 
 
