@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Entity\Campus;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -14,7 +13,7 @@ class ShowController extends AbstractController
 {
  
     #[Route('/{username}', name: 'app_admin_user_show')]
-    public function show(User $user, Campus $campus)
+    public function show(User $user)
     {
       
 
