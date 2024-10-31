@@ -175,6 +175,7 @@ td {
         width: 100%; /* La sidebar prend toute la largeur de l'écran */
         text-align: center;
         padding: 20px 0;
+        min-height: 50vh;
     }
 
     .main-content {

@@ -173,4 +173,14 @@ class CourseController extends AbstractController
 
         return $this->redirectToRoute('app_course_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/course/reservation', name: 'course_reservation', methods: ['POST'])]
+    public function reserveCourse(Request $request): Response
+    {
+        $courseRequest = $request->request->get('course_request');
+        // Logic to handle the course reservation request
+
+        // Flash message and redirect
+        $this->addFlash('success', 'Votre demande d\'inscription a été envoyée.');
+        return $this->redirectToRoute('app_admin_user_show');
+    }
 }
