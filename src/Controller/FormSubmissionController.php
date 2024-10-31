@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\ContactMessage;
 use App\Form\ContactMessageType;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,11 +29,11 @@ class FormSubmissionController extends AbstractController
 
             // Send the email
             $mail = (new TemplatedEmail())
-                ->to('kolonelaboki78@gmail.com')
-                ->from($data->getEmail())
-                ->subject('Contact Form Submission')
-                ->htmlTemplate('emails/index.html.twig')
-                ->context(['data' => $data]);
+            ->from(new Address('contact@webdev77.fr', 'Web Dev Contact')) // IONOS email in the 'from' field
+            ->to('kolonelaboki78@gmail.com')
+            ->subject('Contact Form Submission')
+            ->htmlTemplate('emails/index.html.twig')
+            ->context(['data' => $data]);
             
             $mailer->send($mail);
 
