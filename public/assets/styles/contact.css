@@ -28,12 +28,14 @@
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.1);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  margin-bottom: 10px;
 }
 
 /* Section de formulaire de contact avec des cercles décoratifs */
 .contact-form {
   background-color: rgba(58, 116, 179, 0.5);
   position: relative;
+  border-radius: 10px;
 }
 
 /* Cercles décoratifs sur la section formulaire */

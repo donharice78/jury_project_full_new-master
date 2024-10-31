@@ -1,13 +1,19 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
+# config/packages/framework.yaml
+
 framework:
     secret: '%env(APP_SECRET)%'
-    #csrf_protection: true
+    # Enable CSRF protection for forms
+    csrf_protection: true
 
-    # Note that the session will be started ONLY if you read or write from it.
-    session: true
+    # Enable session management and set session lifetime (10 mins)
+    session:
+        enabled: true
+        cookie_lifetime: 600         # Lifetime in seconds (10 minutes)
+        gc_maxlifetime: 600          # Garbage collection max lifetime (10 minutes)
 
-    #esi: true
-    #fragments: true
+    # Optional: ESI and Fragments for advanced caching techniques
+    # esi: true
+    # fragments: true
 
 when@test:
     framework:
