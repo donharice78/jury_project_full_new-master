@@ -34,6 +34,7 @@ class FormSubmissionController extends AbstractController
             ->subject('Contact Form Submission')
             ->htmlTemplate('emails/index.html.twig')
             ->context(['data' => $data]);
+<<<<<<< HEAD
             
             $mailer->send($mail);
 
@@ -43,6 +44,14 @@ class FormSubmissionController extends AbstractController
             // Redirect after success
             return $this->redirectToRoute('app_home');
         }
+=======
+        
+        $mailer->send($mail);
+
+        $this->addFlash('success', 'Votre message a été envoyé et enregistré avec succès !');
+        return $this->redirectToRoute('app_contact');
+    }
+>>>>>>> da87df3ed1d5981eb68640ca11285daae5ef7894
 
         return $this->render('form_submission/index.html.twig', [
             'form' => $form->createView(),

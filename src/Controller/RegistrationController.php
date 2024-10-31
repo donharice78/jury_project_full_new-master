@@ -3,20 +3,30 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Service\TokenGenerator;
 use App\Form\RegistrationFormType;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException; // Add this line
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface; // Add this line
+
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
-    {
+    public function register(
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        EntityManagerInterface $entityManager, 
+        MailerInterface $mailer,
+        TokenGenerator $tokenGenerator // Change this line
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -51,10 +61,28 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            // Generate a verification token and set it to the user
+            $verificationToken = $tokenGenerator->generateToken();
+            $user->setVerificationToken($verificationToken);
+            $user->setIsVerified(false); // Set user as not verified initially
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
+            // Send verification email
+            $mail = (new TemplatedEmail())
+                ->from(new Address('contact@webdev77.fr', 'Enregistrement Utilisateur')) // IONOS email in the 'from' field
+                ->to($user->getEmail()) // Send to the user's email
+                ->subject('Veuillez confirmer votre compte')
+                ->htmlTemplate('emails/verification.html.twig') // Change this to your verification email template
+                ->context([
+                    'data' => $user,
+                    'verificationToken' => $verificationToken, // Pass the token to the email context
+                ]);
+
+            $mailer->send($mail);
+
+            $this->addFlash('success', 'Inscription réussie ! Un email de vérification a été envoyé à votre adresse.');
 
             return $this->redirectToRoute('app_login');
         }

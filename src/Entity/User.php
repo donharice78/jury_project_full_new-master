@@ -9,7 +9,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -58,7 +57,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null; // Photo de profil de l'utilisateur (chemin du fichier)
 
-   
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $verificationToken = null; // Token de vérification de l'utilisateur
+
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $isVerified = false; // Indique si l'utilisateur a vérifié son compte
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $tokenExpiration = null; // Expiration time for the reset token
+
     /**
      * @var Collection<int, Course>
      */
@@ -76,7 +83,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        
         $this->courses = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -209,12 +215,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-  
+    public function getVerificationToken(): ?string
+    {
+        return $this->verificationToken;
+    }
+
+    public function setVerificationToken(?string $verificationToken): self
+    {
+        $this->verificationToken = $verificationToken;
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+        return $this;
+    }
+
+    public function getTokenExpiration(): ?\DateTimeImmutable
+    {
+        return $this->tokenExpiration;
+    }
+
+    public function setTokenExpiration(?\DateTimeImmutable $tokenExpiration): self
+    {
+        $this->tokenExpiration = $tokenExpiration;
+        return $this;
+    }
+
+    // Method to check if the token is valid
+    public function isTokenValid(): bool
+    {
+        return $this->tokenExpiration !== null && $this->tokenExpiration > new \DateTimeImmutable();
+    }
 
     /**
      * @return Collection<int, Course>
      */
-    
+    public function getCourses(): Collection
+    {
+        return $this->courses;
+    }
 
     public function addCourse(Course $course): static
     {
@@ -224,11 +270,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
-    }
-
-    public function getCourses(): Collection
-    {
-        return $this->courses;
     }
 
     public function removeCourse(Course $course): static
@@ -279,8 +320,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-
-
-
 }

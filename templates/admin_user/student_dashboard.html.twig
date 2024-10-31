@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des utilisateurs
-{% endblock %}
+{% block title %}Gestion des utilisateurs{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -11,18 +10,17 @@
 {% endblock %}
 
 {% block body %}
+{% set mask = '***' %}
     <body>
+        <!-- En-tête de la section cours -->
         <section class="courses-header">
             <nav>
-                <!-- Logo cliquable qui redirige vers la page d'accueil -->
                 <a href="{{ path('app_home') }}">
                     <img src="{{ asset('../assets/img/Web Dev-logo.png') }}" alt="Logo">
                 </a>
                 <div class="nav-links" id="navLinks">
-                    <!-- Icône pour fermer le menu -->
                     <i class="bi bi-x" onclick="hideMenu()"></i>
                     <ul>
-                        <!-- Liens de navigation -->
                         <li><a href="{{ path('app_home') }}">ACCUEIL</a></li>
                         <li><a href="{{ path('app_apropos') }}">À PROPOS</a></li>
                         <li><a href="{{ path('app_course_index') }}">COURS</a></li>
@@ -30,25 +28,25 @@
                         <li><a href="{{ path('app_contact') }}">CONTACT</a></li>
                         <li>
                             <div aria-labelledby="">
-								{% if app.user %}
-									{% if 'ROLE_ADMIN' in app.user.roles %}
-										<a href="{{ path('app_admin_dashboard') }}">ESPACE ADMIN
-										</a>
-									{% elseif 'ROLE_USER' in app.user.roles %}
-										<a href="{{ path('app_admin_user_show', { 'username': app.user.username }) }}">ESPACE ETUDIANT</a>
-									{% endif %}
-								{% else %}
-									<a href="{{ path('app_login') }}">CONNEXION</a>
-								{% endif %}
-							</div>
+                                {% if app.user %}
+                                    {% if 'ROLE_ADMIN' in app.user.roles %}
+                                        <a href="{{ path('app_admin_dashboard') }}">ESPACE ADMIN</a>
+                                    {% elseif 'ROLE_USER' in app.user.roles %}
+                                        <a href="{{ path('app_admin_user_show', { 'username': app.user.username }) }}">ESPACE ETUDIANT</a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{{ path('app_login') }}">CONNEXION</a>
+                                {% endif %}
+                            </div>
                         </li>
                     </ul>
                 </div>
-                <!-- Icône pour ouvrir le menu -->
                 <i class="bi bi-list" onclick="showMenu()"></i>
             </nav>
         </section>
+        
         <div class="dashboard mt-4 mb-5">
+            <!-- Barre latérale de navigation pour les étudiants -->
             <aside class="sidebar">
                 <h2>Portail Étudiant</h2>
                 <nav>
@@ -58,6 +56,8 @@
                     </ul>
                 </nav>
             </aside>
+            
+            <!-- Contenu principal -->
             <main class="main-content">
                 <header>
                     <div class="card-header">
@@ -65,9 +65,11 @@
                         <h1>{{ app.user.lastName ~ ' ' ~ app.user.firstName }}</h1>
                     </div>
                 </header>
+                
                 <section class="cards">
+                    <!-- Carte des formations en cours -->
                     <div class="card">
-                        <h3>Formation Encours</h3>
+                        <h3>Formation En cours</h3>
                         <h1>{{ app.user.courses | length }}</h1>
                         {% if app.user.courses is not empty %}
                             <ul>
@@ -80,113 +82,142 @@
                         {% endif %}
                     </div>
 
+                    <!-- Informations de contact du centre de formation -->
                     <div class="card">
                         <h3>Contactez Votre Centre</h3>
                         <p>Du lundi au vendredi</p>
                         <p>De 9h00 à 18h00</p>
-                        <a href="{{ path('app_contact') }}">Cliquez ici</a>
                     </div>
 
+                    <!-- Informations du centre de formation -->
                     <div class="card">
-                    <h3>Votre Centre De Formation</h3>
-                       {% if app.user.campus is not empty %}
-                    <p>{{ app.user.campus.name }}</p>
-                                        {% else %}
-                    <p>Vous n'êtes inscrit à aucun Centre de formation.</p>
-                       {% endif %}
+                        <h3>Votre Centre De Formation</h3>
+                        {% if app.user.campus is not empty %}
+                            <p>{{ app.user.campus.name }}</p>
+                        {% else %}
+                            <p>Vous n'êtes inscrit à aucun Centre de formation.</p>
+                        {% endif %}
                     </div>
                 </section>
 
-                <!-- Grand div séparé pour les informations de l'utilisateur (maintenant déplacé en dessous des autres cartes) -->
-                <div class="info card shadow-sm">
+                <!-- Demande de changement de cours -->
+                <div class="card">
+                    <h3>Demande de Changement de Cours</h3>
+                    <!-- Bouton pour afficher/masquer le formulaire -->
+                    <button type="button" class="btn btn-secondary" onclick="toggleForm()">Faire une demande de changement</button>
+
+                    <!-- Formulaire, caché par défaut -->
+                    <div id="course-change-form" style="display: none;">
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+                        {{ form_end(form) }}
+
+                        {% for message in app.flashes('success') %}
+                            <div class="alert alert-success">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        {% for message in app.flashes('error') %}
+                            <div class="alert alert-danger">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Informations utilisateur -->
+                <div class="card">
                     <h3>Informations de l'utilisateur</h3>
                     <div class="big-div">
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
                                     <th>Email</th>
-                                    <td>{{ app.user.email }}</td>
+                                    <td>{{ mask ~ app.user.email|slice(3) }}</td>  
                                 </tr>
                                 <tr>
                                     <th>Nom d'utilisateur</th>
-                                    <td>{{ app.user.username }}</td>
+                                    <td>{{ mask ~ app.user.username|slice(3) }}</td>  
                                 </tr>
                                 <tr>
                                     <th>Prénom</th>
-                                    <td>{{ app.user.firstName }}</td>
+                                    <td>{{ mask ~ app.user.firstName|slice(3) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Nom de famille</th>
-                                    <td>{{ app.user.lastName }}</td>
+                                    <td>{{ mask ~ app.user.lastName|slice(3) }}</td>
                                 </tr>
                                 <tr>
                                     <th>Téléphone</th>
-                                    <td>{{ app.user.phone }}</td>
+                                    <td>{{ mask ~ app.user.phone|slice(3) }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </main>
         </div>
-        <!-- Footer -->
-		<footer class="footer">
-			<div class="footer-container">
-				<div
-					class="footer-row">
-					<!-- Colonnes du pied de page avec informations et liens -->
-					<div class="footer-col">
-						<h4>WeB DeV</h4>
-						<ul>
-							<li><a href="{{ path('app_home') }}">Accueil</a></li>
-							<li><a href="{{ path('app_blogs_index') }}">Notre Blog</a></li>
-							<li><a href="{{ path('app_contact') }}">Contactez-nous</a></li>
-							<li><a href="{{ path('app_apropos') }}">À propos de nous</a></li>
-							<li><a href="{{ path('app_privacy') }}">Politique de confidentialité</a></li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h4>Obtenir de l'aide</h4>
-						<ul>
-							<li><a href="{{ path('app_faq') }}">FAQ</a></li>
-							<li><a href="{{ path('app_certification') }}">Certification</a></li>
-							<li><a href="{{ path('app_financements') }}">Financements</a></li>
-							<li><a href="{{ path('app_evenements') }}">Événements</a></li>
-							<li><a href="{{ path('app_modaliteacces') }}">Modalités d'accès</a></li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h4>Adresse</h4>
-						<ul>
-							<li><a href="">7 Avenue du General Patton</a></li>
-							<li><a href="">77000</a></li>
-							<li><a href="">Melun</a></li>
-							<li><a href="tel:+33783650880">Tel: 07 83 65 08 80</a></li>
-							<li><a href="{{ path('app_contact') }}">Contactez-nous <i class="fa-regular fa-envelope"></i></a></li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h4>Suivez-nous</h4>
-						<div class="social-links">
-							<a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-facebook-f"></i>
-							</a>
-							<a href="https://twitter.com/yourprofile" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-twitter"></i>
-							</a>
-							<a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-instagram"></i>
-							</a>
-							<a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-								<i class="fab fa-linkedin-in"></i>
-							</a>
-						</div>
 
-					</div>
-
-
-				</div>
-			</div>
-		</footer>
+        <!-- Pied de page -->
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-row">
+                    <div class="footer-col">
+                        <h4>WeB DeV</h4>
+                        <ul>
+                            <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                            <li><a href="{{ path('app_blogs_index') }}">Notre Blog</a></li>
+                            <li><a href="{{ path('app_contact') }}">Contactez-nous</a></li>
+                            <li><a href="{{ path('app_apropos') }}">À propos de nous</a></li>
+                            <li><a href="{{ path('app_privacy') }}">Politique de confidentialité</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Obtenir de l'aide</h4>
+                        <ul>
+                            <li><a href="{{ path('app_faq') }}">FAQ</a></li>
+                            <li><a href="{{ path('app_certification') }}">Certification</a></li>
+                            <li><a href="{{ path('app_financements') }}">Financements</a></li>
+                            <li><a href="{{ path('app_evenements') }}">Événements</a></li>
+                            <li><a href="{{ path('app_modaliteacces') }}">Modalités d'accès</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Adresse</h4>
+                        <ul>
+                            <li><a href="#">7 Avenue du General Patton</a></li>
+                            <li><a href="#">77000</a></li>
+                            <li><a href="#">Melun</a></li>
+                            <li><a href="tel:+33783650880">Tel: 07 83 65 08 80</a></li>
+                            <li><a href="{{ path('app_contact') }}">Contactez-nous <i class="fa-regular fa-envelope"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Suivez-nous</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/yourpage" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.twitter.com/yourpage" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </body>
+    
+    <script>
+        // Fonction pour afficher/masquer le formulaire de demande de changement de cours
+        function toggleForm() {
+            var form = document.getElementById("course-change-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+    </script>
 {% endblock %}

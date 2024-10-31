@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ContactMessageRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+use App\Repository\ContactMessageRepository;
 
 #[ORM\Entity(repositoryClass: ContactMessageRepository::class)]
 class ContactMessage
@@ -25,6 +25,24 @@ class ContactMessage
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null; // Contenu du message de contact
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Course::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $course;
+
+    public function getCourse(): ?Course
+    {
+        return $this->course;
+    }
+
+    public function setCourse(?Course $course): self
+    {
+        $this->course = $course;
+
+        return $this;
+    }
 
     // Méthode pour obtenir l'identifiant du message de contact
     public function getId(): ?int

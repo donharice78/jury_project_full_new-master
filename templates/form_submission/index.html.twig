@@ -207,5 +207,16 @@
 			</div>
 		</footer>
 
+		{% for message in app.flashes('success') %}
+        <script>
+            window.onload = function() {
+                alert("{{ message }}");
+            };
+        </script>
+		
+    {% endfor %}
+
 </body>
+
+
 {% endblock %}

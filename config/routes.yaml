@@ -16,3 +16,8 @@ user_show:
     path: /user/
     controller: App\Controller\UserController::show
     methods: GET
+
+app_reset_password_request:
+    path: /reset-password
+    controller: App\Controller\SecurityController::resetPasswordRequest
+

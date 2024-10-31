@@ -46,13 +46,14 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Nouveau courriel du Webdev77.fr
+                Nouveau courriel du Projet Jury
             </div>
             <div class="card-body">
                 <ul class="list-group">
                     <li class="list-group-item"><strong>Nom :</strong> {{ data.name }}</li>
                     <li class="list-group-item"><strong>Email :</strong> {{ data.email }}</li>
                     <li class="list-group-item"><strong>Téléphone :</strong> {{ data.phone }}</li>
+                    <li class="list-group-item"><strong>Cours :</strong> {{ data.course.name }}</li> <!-- Access the title property -->
                     <li class="list-group-item"><strong>Message :</strong> {{ data.message }}</li>
                 </ul>
             </div>

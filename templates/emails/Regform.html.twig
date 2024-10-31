@@ -46,14 +46,27 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Nouveau courriel du Webdev77.fr
+                Nouveau courriel du Projet Jury
             </div>
             <div class="card-body">
                 <ul class="list-group">
-                    <li class="list-group-item"><strong>Nom :</strong> {{ data.name }}</li>
-                    <li class="list-group-item"><strong>Email :</strong> {{ data.email }}</li>
-                    <li class="list-group-item"><strong>Téléphone :</strong> {{ data.phone }}</li>
-                    <li class="list-group-item"><strong>Message :</strong> {{ data.message }}</li>
+                    <li class="list-group-item"><strong>Email:</strong> {{ data.email}}</li>
+                    <li class="list-group-item"><strong>Pseudo:</strong> {{ data.username }}</li>
+                    <li class="list-group-item"><strong>Prénom :</strong> {{ data.firstName }}</li>
+                    <li class="list-group-item"><strong>Nom :</strong> {{ data.lastName }}</li>
+<li class="list-group-item"><strong>Cours :</strong>
+    <ul>
+        {% if data.courses|length > 0 %}
+            {% for course in data.courses %}
+                <li>{{ course.name }}</li> <!-- Assuming each Course entity has a 'name' property -->
+            {% endfor %}
+        {% else %}
+            <li>Aucun cours sélectionné.</li> <!-- Display this if no courses are selected -->
+        {% endif %}
+    </ul>
+</li>
+                    <li class="list-group-item"><strong>Campus :</strong> {{ data.campus.name }}</li>
+                    <li class="list-group-item"><strong>Téléphone:</strong> {{ data.phone}}</li>
                 </ul>
             </div>
         </div>

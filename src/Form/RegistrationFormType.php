@@ -86,10 +86,13 @@ class RegistrationFormType extends AbstractType
 
             ->add('campus', EntityType::class, [
                 'class' => Campus::class,
-                'choice_label' => 'name', // Display course name
-                'multiple' => false,        // Allow selection of multiple courses
-                'expanded' => true,        // Use checkboxes instead of a select box
+                'choice_label' => 'name', // Display campus name
+                'multiple' => false,       // Allow selection of only one campus
+                'expanded' => false,       // Use a dropdown instead of checkboxes
+                'label' => 'Sélectionnez un campus',
+                'attr' => ['class' => 'form-control'],
             ])
+            
             
             
             // Ajouter le champ 'phone' (numéro de téléphone) de type texte avec validation

@@ -139,7 +139,7 @@
 
 						<div class="text-center mt-4">
 							<p>
-								<a href="#" class="btn-link">Mot de passe oublié ?</a>
+								<a href="{{ path('app_reset_password_request') }}" class="btn-link">Mot de passe oublié ?</a>
 							</p>
 							<p>Pas encore de compte ?
 								<a href="{{ path('app_register') }}" class="btn-link">Inscrivez-vous</a>
@@ -210,6 +210,7 @@
 				</div>
 			</div>
 		</footer>
+		
 	</body>
 
 {% endblock %}

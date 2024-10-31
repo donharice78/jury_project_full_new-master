@@ -1,18 +1,16 @@
 <?php
-
-
-// src/Security/LoginSuccessHandler.php
 namespace App\Security;
 
+use App\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-    private $router;
+    private RouterInterface $router;
 
     public function __construct(RouterInterface $router)
     {
@@ -23,6 +21,16 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     {
         // Get the logged-in user
         $user = $token->getUser();
+
+        // Check if the user is verified
+        if ($user instanceof User && !$user->isVerified()) {
+            // Add a flash message to inform the user
+            $request->getSession()->getFlashBag()->add('warning', 'Veuillez vérifier votre adresse e-mail pour activer votre compte.');
+
+            // Redirect to a verification reminder page or stay on the same page
+            return new RedirectResponse($this->router->generate('app_verify_reminder')); // Adjust route as needed
+        }
+
         // Get the user's roles
         $roles = $user->getRoles();
 
