@@ -43,7 +43,7 @@ class ShowController extends AbstractController
             $mailer->send($mail);
 
             // Add flash message
-            $this->addFlash('success', 'Your course change request has been submitted.');
+            $this->addFlash('success', 'Votre demande de changement de cours a été soumise.');
 
             $contactMessage = new ContactMessage(); // Create a new instance to clear the form
             $form = $this->createForm(ContactMessageType::class, $contactMessage);

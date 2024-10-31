@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Veuillez confirmer votre compte</title>
+</head>
+<body>
+    <h1>Bonjour {{ data.username }}</h1>
+    <p>Merci de vous être inscrit sur notre site. Veuillez cliquer sur le lien ci-dessous pour vérifier votre compte :</p>
+    <p>
+        <a href="{{ url('app_verify', { 'token': verificationToken }) }}">
+            Confirmer mon compte
+        </a>
+    </p>
+    <p>Merci !</p>
+</body>
+</html>

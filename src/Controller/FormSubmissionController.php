@@ -37,8 +37,8 @@ class FormSubmissionController extends AbstractController
         
         $mailer->send($mail);
 
-        $this->addFlash('success', 'Your message has been sent and saved successfully!');
-        return $this->redirectToRoute('app_home');
+        $this->addFlash('success', 'Votre message a été envoyé et enregistré avec succès !');
+        return $this->redirectToRoute('app_contact');
     }
 
         return $this->render('form_submission/index.html.twig', [
