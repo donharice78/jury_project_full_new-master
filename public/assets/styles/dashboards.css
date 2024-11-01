@@ -169,6 +169,7 @@ td {
 @media (max-width: 768px) {
     .dashboard {
         flex-direction: column; /* Les sections sont empilées en colonne */
+        
     }
 
     .sidebar {
