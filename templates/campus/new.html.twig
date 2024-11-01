@@ -3,9 +3,31 @@
 {% block title %}New Campus{% endblock %}
 
 {% block body %}
-    <h1>Create new Campus</h1>
+    <style>
+        /* Internal CSS for additional styling */
+        .container {
+            background-color: #f8f9fa; /* Light background color */
+            padding: 20px; /* Padding around the content */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+        }
+        h1 {
+            color: #343a40; /* Darker color for the heading */
+        }
+        a.btn {
+            margin-top: 15px; /* Spacing above the button */
+        }
+    </style>
 
-    {{ include('campus/_form.html.twig') }}
+    <div class="container vh-100 d-flex align-items-center justify-content-center">
+        <div class="col-md-6">  {# Adjust the column size as needed #}
+            <h1 class="text-center">Create new Campus</h1>
 
-    <a href="{{ path('app_campus_index') }}">Retour à la liste</a>
+            {{ include('campus/_form.html.twig') }}
+
+            <div class="text-center mt-3">
+                <a href="{{ path('app_campus_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -86,8 +86,11 @@
 						Mois</p>
 					<!-- Date de début du cours -->
 					<p class="card-text">
-						<strong class="fw-bold">Date de Début :</strong>
+						<strong class="fw-bold">Date limite d’inscription :</strong>
 						{{ course.startDate ? course.startDate|date('d-m-Y') : 'N/A' }}</p>
+					<p class="card-text">
+						<strong class="fw-bold">Date de Début :</strong>
+						{{ course.startDate ? course.endDate|date('d-m-Y') : 'N/A' }}</p>
 					<!-- Format du cours -->
 					<p class="card-text">
 						<strong class="fw-bold">Format du Cours :</strong>

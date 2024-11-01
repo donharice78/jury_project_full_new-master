@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class Course1Type extends AbstractType
@@ -45,7 +46,7 @@ class Course1Type extends AbstractType
             // Ajouter le champ 'start_date' pour la date de début du cours
             ->add('start_date', null, [
                 'widget' => 'single_text', // Afficher le champ comme un seul texte
-                'label' => 'Date de Début', // Label du champ
+                'label' => 'Date limite d’inscription', // Label du champ
                 'attr' => ['placeholder' => 'Sélectionnez la date de début', // Placeholder du champ
                 'min' => (new \DateTime())->format('Y-m-d'),
             ]
@@ -53,22 +54,35 @@ class Course1Type extends AbstractType
 
             ->add('end_date', null, [
                 'widget' => 'single_text', // Afficher le champ comme un seul texte
-                'label' => 'Date de Fin', // Label du champ
+                'label' => 'Date de Début', // Label du champ
                 'attr' => ['placeholder' => 'Sélectionnez la date de début', // Placeholder du champ
                 'min' => (new \DateTime())->format('Y-m-d'),
             ]
             ])
             
             // Ajouter le champ 'course_format' pour le format du cours
-            ->add('course_format', null, [
-                'label' => 'Format du Cours', // Label du champ
-                'attr' => ['placeholder' => 'Choisissez le format du cours'], // Placeholder du champ
+            ->add('course_format', ChoiceType::class, [
+                'label' => 'Format du Cours',
+                'choices' => [
+                    'En ligne' => 'En ligne',
+                    'Présentiel' => 'Présentiel',
+                    'Hybride' => 'Hybride',
+                ],
+                'placeholder' => 'Choisissez le format du cours',
+                'required' => true,
             ])
             
             // Ajouter le champ 'prerequisities' pour les prérequis du cours
-            ->add('prerequisities', null, [
-                'label' => 'Prérequis', // Label du champ
-                'attr' => ['placeholder' => 'Entrez les prérequis du cours'], // Placeholder du champ
+            ->add('prerequisities', ChoiceType::class, [
+                'label' => 'Prérequis',
+                'choices' => [
+                    'Aucun' => 'Aucun',
+                    'Diplôme' => 'Diplôme',
+                    'Expérience professionnelle' => 'Expérience professionnelle',
+                    'Autre' => 'Autre',
+                ],
+                'placeholder' => 'Choisissez les prérequis',
+                'required' => false,
             ])
             
             // Ajouter le champ 'course_fee' pour les frais du cours
