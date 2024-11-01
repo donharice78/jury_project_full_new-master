@@ -64,15 +64,9 @@ class Course1Type extends AbstractType
             ->add('course_format', ChoiceType::class, [
                 'label' => 'Format du Cours',
                 'choices' => [
-<<<<<<< HEAD
-                    'En ligne' => 'online',
-                    'Présentiel' => 'in_person',
-                    'Hybride' => 'hybrid',
-=======
                     'En ligne' => 'En ligne',
                     'Présentiel' => 'Présentiel',
                     'Hybride' => 'Hybride',
->>>>>>> 8cf7ee0fc29baee6148734ab27ca8733b4d7ce18
                 ],
                 'placeholder' => 'Choisissez le format du cours',
                 'required' => true,
@@ -82,17 +76,10 @@ class Course1Type extends AbstractType
             ->add('prerequisities', ChoiceType::class, [
                 'label' => 'Prérequis',
                 'choices' => [
-<<<<<<< HEAD
-                    'Aucun' => 'none',
-                    'Diplôme' => 'diploma',
-                    'Expérience professionnelle' => 'professional_experience',
-                    'Autre' => 'other',
-=======
                     'Aucun' => 'Aucun',
                     'Diplôme' => 'Diplôme',
                     'Expérience professionnelle' => 'Expérience professionnelle',
                     'Autre' => 'Autre',
->>>>>>> 8cf7ee0fc29baee6148734ab27ca8733b4d7ce18
                 ],
                 'placeholder' => 'Choisissez les prérequis',
                 'required' => false,
