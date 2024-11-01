@@ -84,11 +84,21 @@ class RegistrationController extends AbstractController
 
             $this->addFlash('success', 'Inscription réussie ! Un email de vérification a été envoyé à votre adresse.');
 
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('verifiy_reg_email');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    
+    
+
+    #[Route('/verifiy_reg_email', name: 'verifiy_reg_email')]
+    public function verifiyRegEmail(): Response
+    {
+        // Affiche la page d'accueil
+        return $this->render('verification/reg_verify.html.twig');
     }
 }
