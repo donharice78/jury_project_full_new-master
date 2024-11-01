@@ -34,6 +34,7 @@ security:
 
     # Règles de contrôle d'accès
     access_control:
+<<<<<<< HEAD
         - { path: ^/back, roles: ROLE_ADMIN }                  # Accès restreint à /back pour ROLE_ADMIN
         - { path: ^/campus, roles: ROLE_ADMIN }                  # Accès restreint à /back pour ROLE_ADMIN
         - { path: ^/view, roles: IS_AUTHENTICATED_FULLY }      # Connexion requise pour accéder à /view
@@ -43,3 +44,15 @@ security:
         - { path: ^/course/edit, roles: ROLE_ADMIN }           # Édition de cours restreinte à ROLE_ADMIN
         - { path: ^/blogs/new, roles: ROLE_ADMIN }             # Création de blogs restreinte à ROLE_ADMIN
         - { path: ^/blogs/edit, roles: ROLE_ADMIN }            # Édition de blogs restreinte à ROLE_ADMIN
+=======
+        # Define access control rules
+        - { path: ^/back, roles: ROLE_ADMIN }
+        - { path: ^/view, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/comment, roles: ROLE_ADMIN }
+        - { path: ^/course/new, roles: ROLE_ADMIN }
+        - { path: ^/course/edit, roles: ROLE_ADMIN }
+        - { path: ^/blogs/new, roles: ROLE_ADMIN }
+        - { path: ^/blogs/edit, roles: ROLE_ADMIN }
+
+>>>>>>> 8cf7ee0fc29baee6148734ab27ca8733b4d7ce18

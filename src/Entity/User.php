@@ -14,7 +14,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+
+
 #[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte avec cet email')]
+#[UniqueEntity(fields: ['phone'], message: 'Ce numéro de téléphone est déjà utilisé.')]
+#[UniqueEntity(fields: ['username'], message: 'Ce nom d\'utilisateur est déjà pris.')] // Ensures unique usernames
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -45,8 +49,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: 'Le nom de famille ne doit pas être vide.')]
     private ?string $lastName = null; // Nom de famille de l'utilisateur
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $phone = null; // Numéro de téléphone de l'utilisateur (optionnel)
+    #[ORM\Column(length: 10, unique: true, nullable: true)] 
+    #[Assert\NotBlank(message: 'Le numéro de téléphone ne doit pas être vide.')]
+    #[Assert\Length(
+        max: 10,
+        maxMessage: 'Le numéro de téléphone ne doit pas dépasser 10 chiffres.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^\d+$/',
+        message: 'Le numéro de téléphone doit être composé uniquement de chiffres.'
+    )]
+    private ?string $phone = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $terms = null; // Conditions acceptées par l'utilisateur (optionnel)
@@ -64,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false; // Indique si l'utilisateur a vérifié son compte
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    private ?\DateTimeImmutable $tokenExpiration = null; // Expiration time for the reset token
+    private ?\DateTimeInterface $tokenExpiration = null; // Expiration time for the reset token
 
     /**
      * @var Collection<int, Course>
@@ -237,12 +250,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getTokenExpiration(): ?\DateTimeImmutable
+    public function getTokenExpiration(): ?\DateTimeInterface
     {
         return $this->tokenExpiration;
     }
 
-    public function setTokenExpiration(?\DateTimeImmutable $tokenExpiration): self
+    public function setTokenExpiration(?\DateTimeInterface $tokenExpiration): self
     {
         $this->tokenExpiration = $tokenExpiration;
         return $this;
@@ -251,7 +264,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // Method to check if the token is valid
     public function isTokenValid(): bool
     {
-        return $this->tokenExpiration !== null && $this->tokenExpiration > new \DateTimeImmutable();
+        return $this->tokenExpiration !== null && $this->tokenExpiration > new \DateTime();
     }
 
     /**
