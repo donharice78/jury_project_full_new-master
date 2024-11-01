@@ -1,40 +1,45 @@
 # config/packages/security.yaml
 security:
+    # Configuration du hachage de mot de passe
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
+    # Définition du fournisseur d'utilisateurs
     providers:
         app_user_provider:
             id: App\Security\UserProvider
 
+    # Configuration des firewalls
     firewalls:
+        # Firewall pour l'environnement de développement (aucune authentification pour le profiler, les assets, etc.)
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # Firewall principal pour gérer la connexion et la déconnexion
         main:
             lazy: true
             provider: app_user_provider
             form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true
-                success_handler: App\Security\LoginSuccessHandler # Add your success handler here
+                login_path: app_login             # Route pour la page de connexion
+                check_path: app_login             # Route pour la soumission du formulaire de connexion
+                enable_csrf: true                 # Activer la protection CSRF pour la connexion
+                success_handler: App\Security\LoginSuccessHandler  # Gestionnaire de succès personnalisé
             logout:
-                path: app_logout
-                # Redirect after logout
-                target: app_home # Redirect to homepage or any other page after logout
+                path: app_logout                  # Route pour la déconnexion
+                target: app_home                  # Redirection après déconnexion
 
-            # Uncomment and configure the necessary authentications if needed
+            # Décommenter si vous utilisez switch_user pour l'impersonation
             # switch_user: true
 
+    # Règles de contrôle d'accès
     access_control:
-        # Define access control rules
-        - { path: ^/back, roles: ROLE_ADMIN }
-        - { path: '^/{username}', roles: ['ROLE_ADMIN', 'ROLE_USER'] }
-        - { path: ^/user, roles: ROLE_USER }
-        - { path: ^/comment, roles: ROLE_ADMIN }
-        - { path: ^/course/new, roles: ROLE_ADMIN }
-        - { path: ^/course/edit, roles: ROLE_ADMIN }
-        - { path: ^/blogs/new, roles: ROLE_ADMIN }
-        - { path: ^/blogs/edit, roles: ROLE_ADMIN }
-
+        - { path: ^/back, roles: ROLE_ADMIN }                  # Accès restreint à /back pour ROLE_ADMIN
+        - { path: ^/campus, roles: ROLE_ADMIN }                  # Accès restreint à /back pour ROLE_ADMIN
+        - { path: ^/view, roles: IS_AUTHENTICATED_FULLY }      # Connexion requise pour accéder à /view
+        - { path: ^/user, roles: ROLE_USER }                   # Accès restreint à /user pour ROLE_USER
+        - { path: ^/comment, roles: ROLE_ADMIN }               # Accès restreint à /comment pour ROLE_ADMIN
+        - { path: ^/course/new, roles: ROLE_ADMIN }            # Création de cours restreinte à ROLE_ADMIN
+        - { path: ^/course/edit, roles: ROLE_ADMIN }           # Édition de cours restreinte à ROLE_ADMIN
+        - { path: ^/blogs/new, roles: ROLE_ADMIN }             # Création de blogs restreinte à ROLE_ADMIN
+        - { path: ^/blogs/edit, roles: ROLE_ADMIN }            # Édition de blogs restreinte à ROLE_ADMIN
