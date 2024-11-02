@@ -29,26 +29,22 @@
     {% block stylesheets %}
     <script>
     let inactivityTime = function () {
-        let timeout;
-        function resetTimer() {
-            clearTimeout(timeout);
-            timeout = setTimeout(logout, 600000); // 10 minutes
-        }
+    let timeout;
 
-        function logout() {
-            // Redirect to logout route
-            window.location.href = "{{ path('app_logout') }}";
-        }
-
-        // Listens for user interactions
-        window.onload = resetTimer;
-        document.onmousemove = resetTimer;
-        document.onkeypress = resetTimer;
-        document.onclick = resetTimer;
-        document.onscroll = resetTimer;
+    const resetTimer = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            window.location.href = '/logout'; // ou une autre route pour gérer la déconnexion
+        }, 600000); // 10 minutes
     };
 
-    inactivityTime();
+    window.onload = resetTimer; // Réinitialiser le minuteur au chargement de la page
+    window.onmousemove = resetTimer; // Réinitialiser le minuteur sur le mouvement de la souris
+    window.onkeydown = resetTimer; // Réinitialiser le minuteur sur les frappes au clavier
+};
+
+inactivityTime();
+
 </script>
     {% endblock %}
 </head>

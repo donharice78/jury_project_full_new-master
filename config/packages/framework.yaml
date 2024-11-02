@@ -1,22 +1,22 @@
-# config/packages/framework.yaml
-
 framework:
-    secret: '%env(APP_SECRET)%'
-    # Enable CSRF protection for forms
+    secret: '%env(APP_SECRET)%'  # Clé secrète utilisée pour la sécurité de l'application
+    # Activer la protection CSRF pour les formulaires
     csrf_protection: true
 
-    # Enable session management and set session lifetime (10 mins)
+    # Activer la gestion des sessions et définir la durée de vie des sessions (10 minutes)
     session:
-        enabled: true
-        cookie_lifetime: 600         # Lifetime in seconds (10 minutes)
-        gc_maxlifetime: 600          # Garbage collection max lifetime (10 minutes)
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+        cookie_httponly: true
+        gc_maxlifetime: 600
 
-    # Optional: ESI and Fragments for advanced caching techniques
+    # Optionnel : ESI et fragments pour des techniques de mise en cache avancées
     # esi: true
     # fragments: true
 
 when@test:
     framework:
-        test: true
+        test: true  # Activer les options de test
         session:
-            storage_factory_id: session.storage.factory.mock_file
+            storage_factory_id: session.storage.factory.mock_file  # Utiliser un stockage de session fictif pour les tests
