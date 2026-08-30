@@ -1,0 +1,9 @@
+.git
+var/cache/*
+var/log/*
+node_modules
+.env.local
+Dockerfile
+docker-compose*.yml
+compose*.yaml
+README.md
