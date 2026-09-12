@@ -5,7 +5,46 @@ on:
     branches: [main]
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: app_test
+          MYSQL_ROOT_PASSWORD: root_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, zip
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run migrations against test database
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+        env:
+          DATABASE_URL: "mysql://root:root_password@127.0.0.1:3306/app_test?serverVersion=8.0&charset=utf8mb4"
+
+      - name: Run tests
+        run: php bin/phpunit
+        env:
+          DATABASE_URL: "mysql://root:root_password@127.0.0.1:3306/app_test?serverVersion=8.0&charset=utf8mb4"
+
   build-and-push:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
