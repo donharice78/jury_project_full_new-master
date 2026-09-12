@@ -67,3 +67,14 @@ jobs:
           context: .
           push: true
           tags: fhat77/symfony-jury-project:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade symfony-release ~/docker-practice/symfony-chart --set ingress.enabled=true
