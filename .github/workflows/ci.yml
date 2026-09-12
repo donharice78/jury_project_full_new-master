@@ -61,6 +61,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Debug (should be masked)
+        run: echo "Token is ${{ secrets.DOCKERHUB_TOKEN }}"
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
